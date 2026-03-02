@@ -72,6 +72,47 @@ router.post('/signin', (req, res) => {
     }
 });
 
+// ----- /movies routes creation for Assignment 2 ----- // 
+
+router.route('/movies')
+    .get((req,res) => {
+        var o = getJSONObjectForMovieRequirement(req);
+        o.status = 200;
+        o.message = "GET movies (Fetch)";
+        o.query = req.query;
+        o.env = process.env.UNIQUE_KEY;
+        res = res.json(o);
+    })
+    .post((req, res) => {
+        var o = getJSONObjectForMovieRequirement(req);
+        o.status = 200;
+        o.message = "POST movie (Saved)";
+        o.query = req.query;
+        o.env = process.env.UNIQUE_KEY;
+        res = res.json(o);
+    })
+    .put(authJwtController.isAuthenticated, (req, res) => {
+        var o = getJSONObjectForMovieRequirement(req);
+        o.status = 200;
+        o.message = "Movie updated";
+        o.query = req.query;
+        o.env = process.env.UNIQUE_KEY;
+        res = res.status(o);
+    })
+    .delete(authJwtController.isAuthenticated, (req, res) => {
+        var o = getJSONObjectForMovieRequirement(req);
+        o.status = 200; 
+        o.message = "Movie deleted";
+        o.query = req.query;
+        o.env = process.env.UNIQUE_KEY;
+        res = res.status(o);
+    })
+    .all((req, res) => {
+        res = res.status(405).send({ message: 'HTTP method not supported' });
+    });
+
+//----- ----- ----- ----- ----- 
+
 router.route('/testcollection')
     .delete(authController.isAuthenticated, (req, res) => {
         console.log(req.body);
