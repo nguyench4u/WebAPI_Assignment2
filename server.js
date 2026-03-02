@@ -97,7 +97,7 @@ router.route('/movies')
         o.message = "Movie updated";
         o.query = req.query;
         o.env = process.env.UNIQUE_KEY;
-        res = res.status(o);
+        res = res.json(o);
     })
     .delete(authJwtController.isAuthenticated, (req, res) => {
         var o = getJSONObjectForMovieRequirement(req);
@@ -105,7 +105,7 @@ router.route('/movies')
         o.message = "Movie deleted";
         o.query = req.query;
         o.env = process.env.UNIQUE_KEY;
-        res = res.status(o);
+        res = res.json(o);
     })
     .all((req, res) => {
         res = res.status(405).send({ message: 'HTTP method not supported' });
